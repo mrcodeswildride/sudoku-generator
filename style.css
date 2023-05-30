@@ -1,0 +1,42 @@
+body {
+  background-color: beige;
+}
+
+p {
+  font-size: 24px;
+}
+
+button {
+  padding: 5px;
+}
+
+#generateButton {
+  margin-right: 5px;
+}
+
+#grid {
+  display: inline-block;
+  border: 1px solid black;
+  font-size: 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.subgrid {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid black;
+}
+
+.square {
+  display: inline-block;
+  vertical-align: top;
+  width: 35px;
+  height: 35px;
+  background-color: white;
+  border: 1px solid #999;
+  color: #999;
+  font-size: 20px;
+  text-align: center;
+  line-height: 35px;
+}
