@@ -7,11 +7,8 @@ p {
 }
 
 button {
+  display: block;
   padding: 5px;
-}
-
-#generateButton {
-  margin-right: 5px;
 }
 
 #grid {

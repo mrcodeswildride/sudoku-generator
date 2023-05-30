@@ -1,7 +1,5 @@
 let generateButton = document.getElementById(`generateButton`)
-let solutionButton = document.getElementById(`solutionButton`)
 let subgrids = document.getElementsByClassName(`subgrid`)
-let squares = document.getElementsByClassName(`square`)
 
 let subgridSize = 3
 let gridSize = subgridSize * subgridSize
@@ -11,20 +9,12 @@ for (let y = 0; y < gridSize; y++) {
   grid.push([])
 }
 
-generateButton.addEventListener(`click`, generateBoard)
-solutionButton.addEventListener(`click`, showSolution)
+generateButton.addEventListener(`click`, generateGrid)
 
-function generateBoard() {
-  let success = false
-
-  while (!success) {
-    clearGrid()
-    success = fillSquare(0, 0)
-  }
-
+function generateGrid() {
+  clearGrid()
+  fillSquare(0, 0)
   displayGrid()
-  removeNumbers()
-  solutionButton.disabled = false
 }
 
 function clearGrid() {
@@ -56,6 +46,8 @@ function fillSquare(x, y) {
       return true
     }
   }
+
+  grid[y][x] = null
 
   return false
 }
@@ -141,46 +133,13 @@ function displayGrid() {
       let columnIndex = Math.floor(x / subgridSize)
       let subgridIndex = rowIndex * subgridSize + columnIndex
       let subgrid = subgrids[subgridIndex]
-      let subgridSquares = subgrid.querySelectorAll(`.square`)
+      let squares = subgrid.querySelectorAll(`.square`)
 
       rowIndex = y % subgridSize
       columnIndex = x % subgridSize
       let squareIndex = rowIndex * subgridSize + columnIndex
-      let square = subgridSquares[squareIndex]
-
-      delete square.dataset.solution
+      let square = squares[squareIndex]
       square.innerHTML = grid[y][x]
     }
   }
-}
-
-function removeNumbers() {
-  let squareIndexes = []
-
-  for (let i = 0; i < squares.length; i++) {
-    squareIndexes.push(i)
-  }
-
-  shuffle(squareIndexes)
-
-  for (let i = 0; i < squares.length / 2; i++) {
-    let squareIndex = squareIndexes[i]
-    let square = squares[squareIndex]
-
-    square.dataset.solution = square.innerHTML
-    square.innerHTML = ``
-  }
-}
-
-function showSolution() {
-  for (let square of squares) {
-    let solution = square.dataset.solution
-
-    if (solution) {
-      delete square.dataset.solution
-      square.innerHTML = solution
-    }
-  }
-
-  solutionButton.disabled = true
 }

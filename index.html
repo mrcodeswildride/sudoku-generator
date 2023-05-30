@@ -11,15 +11,11 @@
     <h1>Sudoku Generator</h1>
 
     <p>
-      This program generates a random but solvable Sudoku board. A board is solvable if 1-9 can be
-      placed in every square such that every row, column, and 3&times;3 subgrid does not contain a
-      duplicate number.
+      This program generates a random but valid Sudoku grid. A grid is valid if every row, column,
+      and 3&times;3 subgrid contains 1-9.
     </p>
 
-    <div>
-      <button id="generateButton">Generate board</button>
-      <button id="solutionButton" disabled>Show solution</button>
-    </div>
+    <button id="generateButton">Generate grid</button>
 
     <div id="grid">
       <div class="row">
