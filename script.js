@@ -1,5 +1,8 @@
 let generateButton = document.getElementById(`generateButton`)
+let visualizeButton = document.getElementById(`visualizeButton`)
 let subgrids = document.getElementsByClassName(`subgrid`)
+
+let visual
 
 let subgridSize = 3
 let gridSize = subgridSize * subgridSize
@@ -9,12 +12,34 @@ for (let y = 0; y < gridSize; y++) {
   grid.push([])
 }
 
-generateButton.addEventListener(`click`, generateGrid)
+generateButton.addEventListener(`click`, generate)
+visualizeButton.addEventListener(`click`, visualize)
 
-function generateGrid() {
+function generate() {
+  visual = false
+  generateGrid()
+}
+
+function visualize() {
+  visual = true
+  generateGrid()
+}
+
+async function generateGrid() {
+  if (visual) {
+    generateButton.disabled = true
+    visualizeButton.disabled = true
+  }
+
   clearGrid()
-  fillSquare(0, 0)
-  displayGrid()
+  await fillSquare(0, 0)
+
+  if (visual) {
+    generateButton.disabled = false
+    visualizeButton.disabled = false
+  } else {
+    displayGrid()
+  }
 }
 
 function clearGrid() {
@@ -25,19 +50,24 @@ function clearGrid() {
   }
 }
 
-function fillSquare(x, y) {
+async function fillSquare(x, y) {
   let possibleNumbers = getPossibleNumbers(x, y)
   shuffle(possibleNumbers)
 
   for (let number of possibleNumbers) {
     grid[y][x] = number
 
+    if (visual) {
+      displayGrid()
+      await sleep()
+    }
+
     let success
 
     if (x < gridSize - 1) {
-      success = fillSquare(x + 1, y)
+      success = await fillSquare(x + 1, y)
     } else if (y < gridSize - 1) {
-      success = fillSquare(0, y + 1)
+      success = await fillSquare(0, y + 1)
     } else {
       success = true
     }
@@ -48,6 +78,11 @@ function fillSquare(x, y) {
   }
 
   grid[y][x] = null
+
+  if (visual) {
+    displayGrid()
+    await sleep()
+  }
 
   return false
 }
@@ -142,4 +177,8 @@ function displayGrid() {
       square.innerHTML = grid[y][x]
     }
   }
+}
+
+function sleep() {
+  return new Promise(resolve => setTimeout(resolve, 50))
 }
